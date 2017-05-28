@@ -7,9 +7,15 @@
 #include <omp.h>
 
 int main(int argc, char **argv) {
-    long N = 10000000000;
-    if (2==argc) 
-        N *= atof(argv[1]);
+    //long N = 10000000000;
+    //long N = 20000000000;
+    long N = 5000000000;
+    if (3==argc) {
+        long base_size = atof(argv[1]);
+        long multiply = atof(argv[2]);
+        N = base_size*multiply;
+        printf("N=%ld\n",N);
+    }
     double sum=0.0; 
     long i;
     double start_time = omp_get_wtime();
