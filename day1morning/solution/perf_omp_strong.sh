@@ -1,13 +1,14 @@
 #!/bin/bash +x
 #make
 
-MULTI=(01 02 04 08 16 32)
+mkdir -p scaling_strong
 BASE=100000000
-ARR=(1 2 4 8 16)
+MULTI=(01 02 04 08 16 32)
+P_ARR=(1 2 4 8 16)
 for k in "${MULTI[@]}";
     do
     b=()
-    for j in "${ARR[@]}";
+    for j in "${P_ARR[@]}";
         do  
         export OMP_NUM_THREADS=$j
         # a warm-up run
@@ -16,6 +17,7 @@ for k in "${MULTI[@]}";
         TOC=$(date +%s.%N);
         min_duration=$(echo "$TOC - $TIC" | bc -l)
     
+        # run the test 3 times, get the best performance
         END=3
         for i in $(seq 1 $END);
             do 
@@ -32,8 +34,8 @@ for k in "${MULTI[@]}";
             done
         b+=("$j $min_duration")
     done
-    printf '%s\n' "${b[@]}" > perf_omp_strg_$k.dat
+    printf '%s\n' "${b[@]}" > ./scaling_strong/perf_omp_strg_$k.dat
 done
 
-paste perf_omp_strg_* > perf_omp_strg.dat
+paste ./scaling_strong/perf_omp_strg_* > ./perf_omp_strg.dat
 
