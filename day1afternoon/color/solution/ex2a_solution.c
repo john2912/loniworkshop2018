@@ -32,7 +32,9 @@ int main(int argc, char* argv[])
     if (a[i] > max_local)
       max_local = a[i];
   }
-   printf("from process %d\n\n", myid);
+   char host[10];
+   gethostname(host,255);
+   printf("from process %d from machine %s\n\n", myid, host);
 
   MPI_Barrier(MPI_COMM_WORLD);
   

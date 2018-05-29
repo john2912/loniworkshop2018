@@ -13,11 +13,12 @@ int main(int argc, char* argv[])
   MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
   // Print out to screen.
-
+  char host[10];
+  gethostname(host, 255);
   if (myid%2 == 0) 
-    printf("Process %d has the color red.\n",myid);
+    printf("Process %d from mahcine %s has the color red.\n",myid, host);
   else
-    printf("Process %d has the color green.\n",myid);
+    printf("Process %d from machine %s has the color green.\n",myid, host);
 
   // Finalize MPI.
 

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MATSIZE 500
+#define MATSIZE 512
 
 int main (int argc, char *argv[])
 {
@@ -13,7 +13,22 @@ int main (int argc, char *argv[])
     int i,j,k;
     int rpeek,cpeek;
     MPI_Status status;
-    
+
+    myrank = 0;
+    if ( argc != 3 && myrank == 0 ){
+        printf("\nUsage: mpirun -np xx %s row-to-check col-to-check \n\n", argv[0]);
+        exit(1);
+    }
+    else {
+        nra = MATSIZE;
+        rpeek=atoi(argv[1]);
+        cpeek=atoi(argv[2]);
+        if (rpeek >= MATSIZE || cpeek >=MATSIZE && myrank==0) {
+                printf("\n peek row of %d or col of %d is greater than %d\n", rpeek, cpeek ,MATSIZE);
+                exit(1);
+       }
+    }
+ 
     //matrix A & B & C have the same dimensions:
     nra = nca = MATSIZE,
     nrb = ncb = MATSIZE;
@@ -22,16 +37,6 @@ int main (int argc, char *argv[])
     MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
     MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
 
-    if ( argc != 3 && myrank == 0 ){
-        printf("\nUsage: mpirun -np xx %s row-to-check col-to-check \n\n", argv[0]);
-        MPI_Abort(MPI_COMM_WORLD, mpi_err);
-        exit(1);
-    }
-    else {
-        nra = MATSIZE; 
-        rpeek=atoi(argv[1]);
-        cpeek=atoi(argv[2]);
-    }
 
     if ((nra % nprocs) != 0 && myrank == 0) {
         printf("\nNrows %d is not a multiple of nprocs %d!\n\n", MATSIZE, nprocs);
