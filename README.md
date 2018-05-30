@@ -21,11 +21,16 @@ If your training account number is larger than 32 (e.g. `hpctrn33 ~ hpctrn60`), 
 ...
 </pre>
 
-## 3. Make sure you are on a compute node with the following command prompt, it should be mike/shelob hostname followed by a three digit number like the one below
+## 3. Make sure you are on a compute node with the following command prompt, it should be mike/shelob hostname followed by a three digit number like the one below:
 <pre>
 [hpctrn??@mike001 ~]$ 
 </pre>
 OR
 <pre>
 [hpctrn??@shelob001 ~]$ 
+</pre>
+
+## 4. Clone the workshop repository to your home directory:
+<pre>
+[hpctrn??@mike001 ~]$ git clone https://github.com/lsuhpchelp/loniworkshop2018
 </pre>
