@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
         // Check if output is required.
         if (iprint != 0)
             if (iter%iprint == 0) 
-                printf("Iteration: %d; Convergence Error: %f\n",iter,dt);
+                printf("Iteration: %d; Convergence Diff: %f\n",iter,dt);
 
         // Check if convergence criteria meet.
         if (dt < relerr) {
