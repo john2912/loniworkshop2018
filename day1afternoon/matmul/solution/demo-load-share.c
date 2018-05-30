@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MATSIZE 500
+#define MATSIZE 512
 
 int main (int argc, char *argv[])
 {
@@ -20,23 +20,31 @@ int main (int argc, char *argv[])
     MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
     MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
 
+    myrank = 0;
     if ( argc != 3 && myrank == 0 ){
         printf("\nUsage: mpirun -np xx %s row-to-check col-to-check \n\n", argv[0]);
-        MPI_Abort(MPI_COMM_WORLD, mpi_err);
         exit(1);
     }
     else {
-        nra = MATSIZE; 
+        nra = MATSIZE;
         rpeek=atoi(argv[1]);
         cpeek=atoi(argv[2]);
+        if (rpeek >= MATSIZE || cpeek >=MATSIZE && myrank==0) {
+                printf("\n peek row of %d or col of %d is greater than %d\n", rpeek, cpeek ,MATSIZE);
+                exit(1);
+       }
     }
+
+    MPI_Init(&argc,&argv);
+    MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
+    MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
 
     if ((nra % nprocs) != 0 && myrank == 0) {
         printf("\nNrows %d is not a multiple of nprocs %d!\n\n", MATSIZE, nprocs);
         MPI_Abort(MPI_COMM_WORLD, mpi_err);
         exit(1);
     }
-
+    
 // initialize the A/B/C matrix
 
     double A[nra][nca];
@@ -60,7 +68,7 @@ int main (int argc, char *argv[])
     int ira_start = myrank * rows_per_process;
     int ira_end = (myrank+1) * rows_per_process - 1;
 
-    for (i=ira_start; i<ira_end; i++){
+    for (i=ira_start; i<=ira_end; i++){
         for (j=0;j<ncb;j++){
             //c[i][j]=0.0;
             for (k=0;k<nca;k++){
