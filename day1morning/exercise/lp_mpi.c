@@ -260,7 +260,7 @@ int main(int argc, char** argv)
             // Check if output is required.
             if (iprint != 0)
                 if (iter%iprint == 0) {
-                    printf("Iteration: %6d; Convergence Error: %f\n",iter,dt_global);
+                    printf("Iteration: %6d; Convergence Diff: %f\n",iter,dt_global);
                 }
         }
     } // end for loop
