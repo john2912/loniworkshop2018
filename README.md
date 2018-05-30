@@ -1,6 +1,8 @@
 # loniworkshop2018
 7th LONI Parallel Programming Workshop
 
+[Workshop Survey Link](https://goo.gl/forms/e0v5D7n05wFpAZog2)
+
 # Log onto SuperMike2
 
 ## 1. From your *local* terminal:
